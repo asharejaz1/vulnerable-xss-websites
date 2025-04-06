@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DOM-Based XSS Demo</title>
+</head>
+<body>
+  <h1>DOM-Based XSS Demo</h1>
+  <p id="content">This page demonstrates a DOM-based XSS vulnerability.</p>
+  <script>
+    // Get the URL hash (the part after the '#')
+    var rawInput = window.location.hash.substring(1);
+    console.log("ri = ", rawInput);
+    // Decode the URL-encoded input
+    var userInput = decodeURIComponent(rawInput);
+    console.log("ui = ", userInput);
+    if (userInput) {
+        console.log("huri baba");
+      // Vulnerable: the decoded input is injected directly into the DOM without sanitization.
+      document.getElementById('content').innerHTML = "User provided input: " + userInput;
+    }
+  </script>
+</body>
+</html>
